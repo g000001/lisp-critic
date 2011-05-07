@@ -1,0 +1,56 @@
+* LISP-CRITIC - A Lisp code critiquing package.
+LISP-CRITICに関連するものを拾ってきてASDFでロードできるようにパッケージ
+
+- Author: Chris Riesbeck
+- Licence: MIT Licence
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+Load:
+#+BEGIN_SRC lisp
+(asdf:load-system :lisp-critic)
+#+END_SRC
+Example call:
+#+BEGIN_SRC lisp
+ (critique
+    (defun count-a (lst)
+      (setq n 0)
+      (dolist (x lst)
+        (if (equal x 'a)
+          (setq n (+ n 1))))
+      n))
+#+END_SRC
+Example output:
+#+BEGIN_SRC lisp
+----------------------------------------------------------------------
+
+SETS-GLOBALS: GLOBALS!! Don't use global variables, i.e., N N
+----------------------------------------------------------------------
+
+DOLIST-SETF: Don't use SETQ inside DOLIST to accumulate values for N.
+Use DO. Make N a DO variable and don't use SETQ etc at all.
+----------------------------------------------------------------------
+
+USE-EQL: Unless something special is going on, use EQL, not EQUAL.
+----------------------------------------------------------------------
+
+X-PLUS-1: Don't use (+ N 1), use (1+ N) for its value or (INCF N) to
+change N, whichever is appropriate here.
+----------------------------------------------------------------------
+#+END_SRC
+
