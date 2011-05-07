@@ -36,7 +36,7 @@ Example call:
       n))
 #+END_SRC
 Example output:
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
 ----------------------------------------------------------------------
 
 SETS-GLOBALS: GLOBALS!! Don't use global variables, i.e., N N
@@ -52,5 +52,5 @@ USE-EQL: Unless something special is going on, use EQL, not EQUAL.
 X-PLUS-1: Don't use (+ N 1), use (1+ N) for its value or (INCF N) to
 change N, whichever is appropriate here.
 ----------------------------------------------------------------------
-#+END_SRC
+#+END_EXAMPLE
 
