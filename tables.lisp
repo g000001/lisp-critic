@@ -82,7 +82,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 (defmacro deftable (fn)
   (let ((set-fn (gentemp)))
-    `(eval-when (load compile eval)
+    `(eval-when (:compile-toplevel :load-toplevel :execute)
        (let* ((fn ',fn)
               (table (get-table fn)))
          (defun ,fn (&optional (key nil key-given-p))
