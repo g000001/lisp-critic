@@ -1,5 +1,6 @@
 * LISP-CRITIC - A Lisp code critiquing package.
-LISP-CRITICに関連するものを拾ってきてASDFでロードできるようにパッケージ
+
+see http://cs.northwestern.edu/academics/courses/325/exercises/critic.html#critic
 
 - Author: Chris Riesbeck
 - Licence: MIT Licence
