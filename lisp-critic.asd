@@ -11,8 +11,8 @@ see more - http://cs.northwestern.edu/academics/courses/325/exercises/critic.htm
   :maintainer "CHIBA Masaomi"
   :license "MIT Licence"
   :serial t
-  :components ((:file "tables")
-               (:file "extend-match")
+  :depends-on (#:tables)
+  :components ((:file "extend-match")
                (:file "write-wrap")
                (:file "lisp-critic")
                (:file "lisp-rules")))
