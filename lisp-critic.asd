@@ -3,7 +3,7 @@
 (cl:in-package :asdf)
 
 (defsystem :lisp-critic
-  :version "2009.11.24"
+  :version "1.1"
   :description "LISP-CRITIC - A Lisp code critiquing package."
   :long-description "The Lisp Critic scans your code for instances of bad Lisp programming practice. The Lisp Critic works for all Lisp code, even if there are no test cases. Use the Critic with all your code, whether it's an exercise, an assignment, or something you invented on your own.
 see more - http://cs.northwestern.edu/academics/courses/325/exercises/critic.html#critic"
