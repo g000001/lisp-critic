@@ -579,7 +579,12 @@ functions, like CONS and APPEND.")
       )
   "If ~S is a list, not a vector, don't use ~S and LENGTH. LENGTH has to ~
    CDR down the entire list. Use (NULL (CDR ...)) with the appropriate number of ~
-   CDR's. That will run in constant time, independent of list length."
+   CDR's. 
+e.g.
+\(DO ((U <list> (CDR U)) (I (1- <size>) (1- I)))
+    ((ZEROP I) (NULL (CDR U))))
+That will run in constant time, independent of list length.
+Or consider using ALEXANDRIA:LENGTH=."
   (? exp) (? pred))
 
 (define-lisp-pattern null-then-listp
