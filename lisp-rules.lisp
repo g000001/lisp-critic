@@ -581,7 +581,7 @@ functions, like CONS and APPEND.")
    CDR down the entire list. Use (NULL (CDR ...)) with the appropriate number of ~
    CDR's. 
 e.g.
-(DO ((U <list> (CDR U)) (I (1- <size>) (1- I)))
+\(DO ((U <list> (CDR U)) (I (1- <size>) (1- I)))
     ((ZEROP I) (NULL (CDR U))))
 That will run in constant time, independent of list length.
 Or consider using ALEXANDRIA:LENGTH=."
