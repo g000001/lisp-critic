@@ -3,129 +3,138 @@
 #|
 Copyright (c) 1997-2005 Christopher K. Riesbeck
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
+Permission is hereby granted, free of charge, to any person obtaining 
+a copy of this software and associated documentation files (the "Software"), 
+to deal in the Software without restriction, including without limitation 
+the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+and/or sell copies of the Software, and to permit persons to whom the 
 Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included
+The above copyright notice and this permission notice shall be included 
 in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR 
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 OTHER DEALINGS IN THE SOFTWARE.
 |#
 
 ;;; Rules for the Lisp Critic.
 ;;; Author: Chris Riesbeck
-;;;
+;;; 
 ;;; Update history:
 ;;;
-;;; 11/24/09 fixed typo in CONS-CONS-ACONS text [CKR]
-;;; 10/01/09 added ADD-ZERO [CKR]
-;;; 09/29/09 fixed NTH-ON-LIST [CKR]
-;;; 09/29/09 added LIST to TYPEP-PRIMITIVE [CKR]
-;;; 11/2/08 added CONS-CONS-ACONS [CKR]
-;;; 2/4/07 added DEFMACRO to SETS-GLOBALS [CKR]
-;;; 2/15/06 added NEEDLESS-SHIFTF, rewrote COND-WITHOUT-DEFAULT [CKR]
-;;; 2/13/06 added GREATER-DIFFERENCE-0 [CKR]
-;;; 2/9/06 modified MAKE-PATHNAME-FILE critique [CKR]
-;;; 2/8/06 added EXPORT-KEYWORD, RETURN-FROM-BLOCK-DEFUN [CKR]
-;;; 2/4/06 added LAMBDA for IDENTITY [CKR]
-;;; 2/4/06 fixed VERBOSE-GENERIC-VAR-NAME to exempt keywords [CKR]
-;;; 2/2/06 expanded comment in EQL-ON-NUMBERS [CKR]
-;;; 2/1/06 added SETF-INCF-VALUE and SETF-DECF-VALUE [CKR]
-;;; 1/31/06 added CONS-CONS-LIST* [CKR]
-;;; 1/25/06 added WHEN-IN-DO [CKR]
-;;; 1/24/06 added COPY-ARRAY and FORMAT-CONSTANT-STRING, remove NULL-FOR-ENDP [CKR]
-;;; 1/13/06 fixed LET-ATOMS format bug [CKR]
-;;; 1/11/06 replaced RPLACD-OR-RPLACA with separate rules [CKR]
-;;; 1/11/06 fixed comment in LENGTH=NUM [CKR]
-;;; 1/11/06 added IF-NO-ELSE [CKR]
-;;; 1/6/06 added TYPEP-PRIMITIVE [CKR]
-;;; 1/6/06 added QUOTE-TRUE [CKR]
-;;; 09/18/05 replaced Academic Free License with MIT Licence [CKR]
-;;; 08/30/05 added license notice [CKR]
-;;; 3/15/05 added NEEDLESS-COND, NEEDLESS-COND-NOT [CKR]
-;;; 3/11/05 added NOT-ATOM [CKR]
-;;; 3/7/05 added MULTIPLE-VALUE-LIST [CKR]
-;;; 3/7/05 fixed LET-ATOMS to also catch (LET ((X)) ...) [CKR]
-;;; 1/31/05 fixed NESTED-COND-ELSE-COND [CKR]
-;;; 1/24/05 Added NESTED-AND-OR [CKR]
-;;; 1/22/05 Edited various critique texts [CKR]
-;;; 1/20/05 fixed USE-EQL to test for '(...) arguments [CKR]
-;;; 1/20/05 fixed COND-INSTEAD-OF-CASE to only match EQL [CKR]
-;;; 1/7/03 fixed X-PLUS-1 and X-MINUS-1 to ignore numbers [CKR]
-;;; 1/5/03 fixed require/use-package code  [CKR]
-;;; 1/3/03 merged DEFINE-LISP-PATTERN and DEFINE-RESPONSE [CKR]
-;;; 3/9/02 added NEEDLESS-PUSH, fixed NEEDLESS-SETF [CKR]
-;;; 2/7/02 changed NEEDLESS-AND, NEEDLESS-OR [CKR]
-;;; 12/28/01 changed package to CS325-USER [CKR]
-;;; 3/1/01 fixed AND -> ?AND in IF-FOR-NOT [CKR]
-;;; 3/1/01 added missing ?NOT NIL to IF->OR and COND->OR [CKR]
-;;; 2/23/01 added DEFMACRO to FUNCTION-TOO-LONG [CKR]
-;;; 2/6/01 added DO*-SINGLE-VAR, IF->OR, COND->OR [CKR]
-;;; 1/30/01 added VERBOSE-GENERIC-VAR-NAME [CKR]
-;;; 1/29/01 added ?-FOR-PREDICATE [CKR]
-;;; 1/22/01 changed LENGTH=NUM response to distinguish vectors from lists [CKR]
-;;; 1/22/01 added top-level constraint to SETS-GLOBALS and NEEDLESS-SETF [CKR]
-;;; 1/22/01 added UNUSED-MAPCAR-VALUE [CKR]
-;;; 1/22/01 added DOLIST and DOTIMES to PROGN-IN-WHEN [CKR]
-;;; 1/17/01 changed SETF-INCF and SETF-DECF to include SETQ [CKR]
-;;; 1/15/01 added SETF-INCF and SETF-DECF [CKR]
-;;; 1/15/01 added NULL-THEN-LISTP, modified LISTP-FOR-CONSP [CKR]
-;;; 1/12/01 added NEEDLESS-AND-T and NEEDLESS-OR-NIL [CKR]
-;;; 11/25/98 added CAR-CDR [CKR]
-;;; 11/25/98 added LET to PROGN-IN-LAMBDA [CKR]
-;;; 11/22/98 changed nested conditional handling to use
+;;; 10/13/2017 generalized SETF-PUSH to include SETQ [CKR]
+;;; 12/07/2015 added DO* to SETF-IN-DO, expanded text of COND-WITHOUT-DEFAULT [CKR]
+;;; 09/28/2015 added PROGN-IN-DO-BODY and PROGN-IN-DO-EXIT [CKR]
+;;; 10/22/2014 added CONCATENATE LIST [CKR]
+;;; 12/09/2013 added CONS-LIST [CKR]
+;;; 10/2011/2011 added ROUND to FLOOR-WITH-/ [CKR]
+;;; 10/2011/2011 added CEILING to FLOOR-WITH-/ [CKR]
+;;; 10/06/2011 added INCF-1 [CKR]
+;;; 10/04/2011 added LIST-LENGTH [CKR]
+;;; 09/29/2011 added PROGN-SINGLE-FORM [CKR]
+;;; 09/28/2011 generalized EQUAL-WITH-NIL [CKR]
+;;; 09/24/2011 added NOT-CONSP [CKR]
+;;; 11/24/2009 fixed typo in CONS-CONS-ACONS text [CKR]
+;;; 10/01/2009 added ADD-ZERO [CKR]
+;;; 09/29/2009 fixed NTH-ON-LIST [CKR]
+;;; 09/29/2009 added LIST to TYPEP-PRIMITIVE [CKR]
+;;; 11/2/2008 added CONS-CONS-ACONS [CKR]
+;;; 2/4/2007 added DEFMACRO to SETS-GLOBALS [CKR]
+;;; 2/15/2006 added NEEDLESS-SHIFTF, rewrote COND-WITHOUT-DEFAULT [CKR]
+;;; 2/13/2006 added GREATER-DIFFERENCE-0 [CKR]
+;;; 2/9/2006 modified MAKE-PATHNAME-FILE critique [CKR]
+;;; 2/8/2006 added EXPORT-KEYWORD, RETURN-FROM-BLOCK-DEFUN [CKR]
+;;; 2/4/2006 added LAMBDA for IDENTITY [CKR]
+;;; 2/4/2006 fixed VERBOSE-GENERIC-VAR-NAME to exempt keywords [CKR]
+;;; 2/2/2006 expanded comment in EQL-ON-NUMBERS [CKR]
+;;; 2/1/2006 added SETF-INCF-VALUE and SETF-DECF-VALUE [CKR]
+;;; 1/31/2006 added CONS-CONS-LIST* [CKR]
+;;; 1/25/2006 added WHEN-IN-DO [CKR]
+;;; 1/24/2006 added COPY-ARRAY and FORMAT-CONSTANT-STRING, remove NULL-FOR-ENDP [CKR]
+;;; 1/13/2006 fixed LET-ATOMS format bug [CKR]
+;;; 1/11/2006 replaced RPLACD-OR-RPLACA with separate rules [CKR]
+;;; 1/11/2006 fixed comment in LENGTH=NUM [CKR]
+;;; 1/11/2006 added IF-NO-ELSE [CKR]
+;;; 1/6/2006 added TYPEP-PRIMITIVE [CKR]
+;;; 1/6/2006 added QUOTE-TRUE [CKR]
+;;; 09/18/2005 replaced Academic Free License with MIT Licence [CKR]
+;;; 08/30/2005 added license notice [CKR]
+;;; 3/15/2005 added NEEDLESS-COND, NEEDLESS-COND-NOT [CKR]
+;;; 3/11/2005 added NOT-ATOM [CKR]
+;;; 3/7/2005 added MULTIPLE-VALUE-LIST [CKR]
+;;; 3/7/2005 fixed LET-ATOMS to also catch (LET ((X)) ...) [CKR]
+;;; 1/31/2005 fixed NESTED-COND-ELSE-COND [CKR]
+;;; 1/24/2005 Added NESTED-AND-OR [CKR]
+;;; 1/22/2005 Edited various critique texts [CKR]
+;;; 1/20/2005 fixed USE-EQL to test for '(...) arguments [CKR]
+;;; 1/20/2005 fixed COND-INSTEAD-OF-CASE to only match EQL [CKR]
+;;; 1/7/2003 fixed X-PLUS-1 and X-MINUS-1 to ignore numbers [CKR]
+;;; 1/5/2003 fixed require/use-package code  [CKR]
+;;; 1/3/2003 merged DEFINE-LISP-PATTERN and DEFINE-RESPONSE [CKR]
+;;; 3/9/2002 added NEEDLESS-PUSH, fixed NEEDLESS-SETF [CKR]
+;;; 2/7/2002 changed NEEDLESS-AND, NEEDLESS-OR [CKR]
+;;; 12/28/2001 changed package to CS325-USER [CKR]
+;;; 3/1/2001 fixed AND -> ?AND in IF-FOR-NOT [CKR]
+;;; 3/1/2001 added missing ?NOT NIL to IF->OR and COND->OR [CKR]
+;;; 2/23/2001 added DEFMACRO to FUNCTION-TOO-LONG [CKR]
+;;; 2/6/2001 added DO*-SINGLE-VAR, IF->OR, COND->OR [CKR]
+;;; 1/30/2001 added VERBOSE-GENERIC-VAR-NAME [CKR]
+;;; 1/29/2001 added ?-FOR-PREDICATE [CKR]
+;;; 1/22/2001 changed LENGTH=NUM response to distinguish vectors from lists [CKR]
+;;; 1/22/2001 added top-level constraint to SETS-GLOBALS and NEEDLESS-SETF [CKR]
+;;; 1/22/2001 added UNUSED-MAPCAR-VALUE [CKR]
+;;; 1/22/2001 added DOLIST and DOTIMES to PROGN-IN-WHEN [CKR]
+;;; 1/17/2001 changed SETF-INCF and SETF-DECF to include SETQ [CKR]
+;;; 1/15/2001 added SETF-INCF and SETF-DECF [CKR]
+;;; 1/15/2001 added NULL-THEN-LISTP, modified LISTP-FOR-CONSP [CKR]
+;;; 1/12/2001 added NEEDLESS-AND-T and NEEDLESS-OR-NIL [CKR]
+;;; 11/25/1998 added CAR-CDR [CKR]
+;;; 11/25/1998 added LET to PROGN-IN-LAMBDA [CKR]
+;;; 11/22/1998 changed nested conditional handling to use
 ;;;          NESTED-COND-ELSE-COND and NESTED-COND-ELSE-COND [CKR]
-;;; 11/11/98 added LET*-SINGLE [CKR]
-;;; 10/28/98 added NESTED-ELSE-COND [CKR]
-;;; 10/28/98 fixed DO-WITH-BODY to handle multiexpression DO-bodies [CKR]
-;;; 10/28/98 added plurals to MISSPELLED-OCCURRENCE [CKR]
-;;; 10/26/98 added APPEND-LIST2-LIST [CKR]
-;;; 10/26/98 added PUSH to SETF-IN-DO-INC [CKR]
-;;; 10/25/98 added PROGN-IN-WHEN, PROGN-IN-DEFUN, PROGN-IN-LAMBDA [CKR]
-;;; 10/14/98 added more misspellings to MISSPELLED-OCCURRENCE [CKR]
-;;; 10/14/98 generalized NESTED-IF's to check for COND's [CKR]
-;;; 10/1/98 fixed QNIL (missing ?*'s) [CKR]
-;;; 9/29/98 added PROGN-IN-COND, SETF-IN-DO-INC [CKR]
-;;; 12/4/97 added QUOTE-KEYWORD [CKR]
-;;; 12/2/97 added FLOOR-WITH-/ [CKR]
-;;; 12/2/97 added keywords and longer message to the EOF rule [CKR]
-;;; 12/2/97 added COND-ELSE-NO-EXP [CKR]
-;;; 11/30/97 turned off QNIL inside DEFMACRO [CKR]
-;;; 11/24/97 added APPLY-FOR-FUNCALL [CKR]
-;;; 11/21/97 added = to LENGTH=NUM [CKR]
-;;; 11/18/97 added LET-ATOMS [CKR]
-;;; 11/18/97 fixed COND-INSTEAD-OF-CASE [CKR]
-;;; 11/16/97 added FIND-MEMBER-FOR-ASSOC [CKR]
-;;; 11/15/97 fixed responses for WHEN-FOR-UNLESS [CKR]
-;;; 11/14/97 partially fixed COND-INSTEAD-OF-CASE [CKR]
-;;; 11/14/97 added several IF and COND patterns [CKR]
-;;; 11/14/97 removed erroneous mode line [CKR]
-;;; 11/11/97 fixed X-PLUS-1 to do (+ 1 X) [CKR]
-;;; 11/7/97 fixed EQL-WITH-NULL and APPEND-LIST-LOOP [CKR]
-;;; 11/4/97 fixed 2 EOF rules with same name [CKR]
-;;; 10/17/97 fixed progn-in-if pattern [CKR]
-;;; 10/17/97 made do-with-body and do-setf smarter [CKR]
-;;; 10/14/97 added append-list-list and nested-defuns [CKR]
-;;; 10/11/97 added append-list-recursion [CKR]
-;;; 10/2/97 added require and in-package [CKR]
+;;; 11/11/1998 added LET*-SINGLE [CKR]
+;;; 10/28/1998 added NESTED-ELSE-COND [CKR]
+;;; 10/28/1998 fixed DO-WITH-BODY to handle multiexpression DO-bodies [CKR]
+;;; 10/28/1998 added plurals to MISSPELLED-OCCURRENCE [CKR]
+;;; 10/26/1998 added APPEND-LIST2-LIST [CKR]
+;;; 10/26/1998 added PUSH to SETF-IN-DO-INC [CKR]
+;;; 10/25/1998 added PROGN-IN-WHEN, PROGN-IN-DEFUN, PROGN-IN-LAMBDA [CKR]
+;;; 10/14/1998 added more misspellings to MISSPELLED-OCCURRENCE [CKR]
+;;; 10/14/1998 generalized NESTED-IF's to check for COND's [CKR]
+;;; 10/1/1998 fixed QNIL (missing ?*'s) [CKR]
+;;; 9/29/1998 added PROGN-IN-COND, SETF-IN-DO-INC [CKR]
+;;; 12/4/1997 added QUOTE-KEYWORD [CKR]
+;;; 12/2/1997 added FLOOR-WITH-/ [CKR]
+;;; 12/2/1997 added keywords and longer message to the EOF rule [CKR]
+;;; 12/2/1997 added COND-ELSE-NO-EXP [CKR]
+;;; 11/30/1997 turned off QNIL inside DEFMACRO [CKR]
+;;; 11/24/1997 added APPLY-FOR-FUNCALL [CKR]
+;;; 11/21/1997 added = to LENGTH=NUM [CKR]
+;;; 11/18/1997 added LET-ATOMS [CKR]
+;;; 11/18/1997 fixed COND-INSTEAD-OF-CASE [CKR]
+;;; 11/16/1997 added FIND-MEMBER-FOR-ASSOC [CKR]
+;;; 11/15/1997 fixed responses for WHEN-FOR-UNLESS [CKR]
+;;; 11/14/1997 partially fixed COND-INSTEAD-OF-CASE [CKR]
+;;; 11/14/1997 added several IF and COND patterns [CKR]
+;;; 11/14/1997 removed erroneous mode line [CKR]
+;;; 11/11/1997 fixed X-PLUS-1 to do (+ 1 X) [CKR]
+;;; 11/7/1997 fixed EQL-WITH-NULL and APPEND-LIST-LOOP [CKR]
+;;; 11/4/1997 fixed 2 EOF rules with same name [CKR]
+;;; 10/17/1997 fixed progn-in-if pattern [CKR]
+;;; 10/17/1997 made do-with-body and do-setf smarter [CKR]
+;;; 10/14/1997 added append-list-list and nested-defuns [CKR]
+;;; 10/11/1997 added append-list-recursion [CKR]
+;;; 10/2/1997 added require and in-package [CKR]
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (in-package #:lisp-critic)
-
-#|(require "lisp-critic")|#
-#|(use-package '#:lisp-critic)|#
 
 
 ;;; Should add:
@@ -148,8 +157,8 @@ OTHER DEALINGS IN THE SOFTWARE.
  (defun (?*)
    (?contains (defun (?*)))
    (?*))
-  "DEFUN's don't nest in CL like they do in Scheme.
-   They're always top-level. FLET and LABELS can define local
+  "DEFUN's don't nest in CL like they do in Scheme. 
+   They're always top-level. FLET and LABELS can define local 
    functions, but you don't need them here.")
 
 (define-lisp-pattern sets-globals
@@ -176,7 +185,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 (define-lisp-pattern equal-with-nil
  (?and ((?eql-pred eql) (? arg1) (? arg2))
-  (?or (?match (? arg1) nil) (?match (? arg2) nil)))
+  (?or (?match (?or nil (quote nil)) (? arg1)) 
+       (?match (?or nil (quote nil)) (? arg2))))
   "Don't use ~S to compare ~S with ~S. Use NULL"
   (? eql) (? arg1) (? arg2))
 
@@ -187,7 +197,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 (define-lisp-pattern cond-without-default
  (cond (?*) ((?not t) (?*)))
   "If the return value of a COND is being used, then be sure to ~
-   have an ELSE branch, i.e., (T ...).")
+   have an ELSE branch, i.e., (T ...). If it's not being used, use ~
+   WHEN or UNLESS.")
 
 (define-lisp-pattern cond-test-no-exp
  (cond (?*) ((? test)) (?) (?*))
@@ -211,14 +222,16 @@ with (DO (... (~S ~S ~S)...) ...)"
   (? var) (? var) (? init) (? incr))
 
 (define-lisp-pattern setf-in-do-inc
- (do ((?*)
-      ((? var) (?) ((?and (?or setq setf incf decf push) (? setf))
-                    (?*)))
-      (?*))
-     (?*))
-  "~S is unnecessary in the increment part of a DO clause. Why? What should ~
+ ((?and (?or do do*) (? fn))
+  ((?*)
+   ((? var) (?) ((?and (?or setq setf incf decf push) (? setf))
+                 (?*)))
+   (?*))
+  (?*))
+  "~S is unnecessary in the increment part of a ~S clause. Why? What should ~
 you write?"
-  (? setf))
+  (? setf)
+  (? fn))
 
 (define-lisp-pattern if-no-else
     (if (?) (?))
@@ -226,7 +239,7 @@ you write?"
 matters, you should explicitly say what the else returns, e.g., NIL. ~
 If the return value doesn't matter, use WHEN or UNLESS.")
 
-(define-lisp-pattern nested-and-or
+(define-lisp-pattern nested-and-or 
     ((?and (?or and or) (? fn)) (?*) ((? fn) (?*)) (?*))
   "Why nest an ~S inside an ~S?" (? fn) (? fn))
 
@@ -307,6 +320,16 @@ If the return value doesn't matter, use WHEN or UNLESS.")
  ((?and (?or defun defmacro) (? fn)) (?) (?) (progn (?*)))
   "You never need a PROGN at the start of the body of a ~S." (? FN))
 
+(define-lisp-pattern progn-in-do-body
+ ((?and (?or do do*) (? fn)) (?) (?) (progn (?*)))
+  "You never need a PROGN at the start of the body of a ~S."
+  (? fn))
+
+(define-lisp-pattern progn-in-do-exit
+ ((?and (?or do do*) (? fn)) (?) ((?) (progn (?*))) (?*))
+  "You don't need a PROGN for the exit clause of a ~S."
+  (? fn))
+
 (define-lisp-pattern progn-in-lambda
  ((?and (?or lambda let) (? fn)) (?) (progn (?*)))
   "You never need a PROGN at the start of the body of a ~S."
@@ -316,10 +339,14 @@ If the return value doesn't matter, use WHEN or UNLESS.")
  ((?and (?or when unless dotimes dolist) (? fn)) (?) (progn (?*)))
   "You never need a PROGN at the start of the body of a ~S" (? FN))
 
+(define-lisp-pattern progn-single-form
+  (progn (?))
+  "Why do you think you need a PROGN?")
+
 (define-lisp-pattern setf-push
- (setf (? x) (cons (? y) (? x)))
-  "Instead of (SETF ~S (CONS ...)), use PUSH."
-  (? x))
+ ((?and (?or setq setf) (? setf)) (? x) (cons (? y) (? x)))
+  "Instead of (~S ~S (CONS ...)), use PUSH."
+  (? setf) (? x))
 
 (define-lisp-pattern cond-instead-of-case
  (cond (?repeat ((eql (? var) '(?)) (?*)) 2)
@@ -346,12 +373,12 @@ easy to misread what's being initialized to what."
      (?)
    (?*)
    (?contains
-    (?or ((?and (?or setq setf incf decf) (? fn))
+    (?or ((?and (?or setq setf incf decf) (? fn)) 
           (?and (?is symbolp) (? var))
           (?*))
      ((?and push (? fn)) (?) (and (?is symbolp) (? var)))))
    (?*))
-  "Don't use a DO body to collect values.
+  "Don't use a DO body to collect values. 
 Incorporate the body into the DO variable update list.")
 
 (define-lisp-pattern do*-single-var
@@ -400,7 +427,7 @@ Lisp Critic to distinguish '() from 'NIL internally.]"
 (define-lisp-pattern dolist-setf
  (dolist (?)
    (?contains
-    (?or ((?and (?or setq setf incf decf) (? fn))
+    (?or ((?and (?or setq setf incf decf) (? fn)) 
           (?and (?is symbolp) (? var))
           (?*))
      ((?and push (? fn)) (?) (and (?is symbolp) (? var))))))
@@ -432,9 +459,13 @@ Lisp Critic to distinguish '() from 'NIL internally.]"
      what's the right way to make a list of ~S?"
   (cons (? x) nil) (? x))
 
+(define-lisp-pattern cons-list
+ (?and (cons (?) (list (?*))) (? x))
+  "Why CONS in ~S" (? x))
+
 (define-lisp-pattern append-list-loop
- (do ((?*)
-      ((?) (?) (?contains (append (? x) (list . (? y)))))
+ (do ((?*) 
+      ((?) (?) (?contains (append (? x) (list . (? y))))) 
       (?*))
      (?*) )
   "Avoid ~S in loops. It takes N squared CONSes to build a list ~
@@ -464,6 +495,11 @@ Lisp Critic to distinguish '() from 'NIL internally.]"
 Instead, do (CONS ~S (CONS ... ~S)) or (LIST* ~S ... ~S)."
   (? x) (? y) (? x) (? y) (? x) (? y))
 
+(define-lisp-pattern concatenate-list
+    (concatenate 'list (?*))
+  "CONCATENATE is not needed for list construction. There are lots of more commonly used ~
+functions, like CONS and APPEND.")
+
 (define-lisp-pattern cons-cons-acons
     (cons (cons (?) (?)) (?))
   "Consing onto an alist can be a little simpler with ACONS.")
@@ -481,6 +517,10 @@ Instead, do (CONS ~S (CONS ... ~S)) or (LIST* ~S ... ~S)."
     (?or (+ 0 (?)) (+ (?) 0))
   "Add zero? Think about it...")
 
+(define-lisp-pattern incf-1
+    ((?or incf decf) (?) 1)
+  "The default for INCF and DECF is 1 so it's redundant to include it.")
+
 (define-lisp-pattern x-plus-1
  (?or (+ (?and (?not (?is numberp)) (? var)) 1) (+ 1 (?and (?not (?is numberp)) (? var))))
   "Don't use ~S, use ~S for its value or ~S to change ~S, ~
@@ -494,8 +534,9 @@ Instead, do (CONS ~S (CONS ... ~S)) or (LIST* ~S ... ~S)."
   (- (? var) 1) (1- (? var)) (decf (? var)) (? var))
 
 (define-lisp-pattern floor-with-/
-  (floor (/ (?) (?)))
-  "You don't need FLOOR and /. FLOOR with two arguments does a divide already.")
+  ((?and (?or ceiling floor round) (? fn)) (/ (?) (?)))
+  "You don't need ~S and /. ~S with two arguments does a divide already."
+  (? fn) (? fn))
 
 (define-lisp-pattern quote-false
  'false
@@ -522,8 +563,13 @@ Instead, do (CONS ~S (CONS ... ~S)) or (LIST* ~S ... ~S)."
   "Multiple optional arguments get confusing. Use &KEY for ~S."
   (? fun-name))
 
+(define-lisp-pattern list-length
+    (list-length ?)
+  "LIST-LENGTH is slower than LENGTH because it has to worry about circular lists. ~
+   Use LENGTH unless circular lists are expected (rare).")
+
 (define-lisp-pattern length=num
-    (?or
+    (?or 
      ((?and (?or (?eql-pred) = < <= > >=) (? pred))
       (length (? exp))
       (?and (?is numberp) (? n)))
@@ -545,6 +591,10 @@ Instead, do (CONS ~S (CONS ... ~S)) or (LIST* ~S ... ~S)."
   "Testing for LISTP ~S after testing for NULL ~S is like testing ~
    for X <= Y after testing for X = Y. It's redundant and misleading."
   (? exp) (? exp))
+
+(define-lisp-pattern not-consp
+    (not (consp (?)))
+  "NOT CONSP is equvalent to what basic predicate?")
 
 (define-lisp-pattern listp-for-consp
  (cond (?*)
@@ -622,17 +672,17 @@ you should just use the pathname passed in."
 (define-lisp-pattern needless-setf
  (?top-level
   (defun (?*)
-    (?or ((?and (?or setf incf decf) (? fn))
+    (?or ((?and (?or setf incf decf) (? fn)) 
           (?and (?is symbolp) (? var))
           (?*))
          (cond (?*)
-               ((?*) ((?and (?or setf incf decf) (? fn))
+               ((?*) ((?and (?or setf incf decf) (? fn)) 
                       (?and (?is symbolp) (? var))
                       (?*)))
                (?*))
          (if (?)
            (?*)
-           ((?and (?or setf incf decf) (? fn))
+           ((?and (?or setf incf decf) (? fn)) 
             (?and (?is symbolp) (? var))
             (?*))
            (?*))
@@ -642,13 +692,13 @@ you should just use the pathname passed in."
                  (?and (?is symbolp) (? var))
                  (?*))
                 (cond (?*)
-                      ((?*) ((?and (?or setf incf decf) (? fn))
+                      ((?*) ((?and (?or setf incf decf) (? fn)) 
                              (?and (?is symbolp) (? var))
                              (?*)))
                       (?*))
                 (if (?)
                   (?*)
-                  ((?and (?or setf incf decf) (? fn))
+                  ((?and (?or setf incf decf) (? fn)) 
                    (?and (?is symbolp) (? var))
                    (?*))
                   (?*))))
@@ -659,33 +709,33 @@ you should just use the pathname passed in."
 (define-lisp-pattern needless-push
  (?top-level
   (defun (?*)
-    (?or ((?and (?or push pushnew) (? fn))
+    (?or ((?and (?or push pushnew) (? fn)) 
           (?)
           (?and (?is symbolp) (? var)))
          (cond (?*)
-               ((?*) ((?and (?or push pushnew) (? fn))
+               ((?*) ((?and (?or push pushnew) (? fn)) 
                       (?)
                       (?and (?is symbolp) (? var))))
                (?*))
          (if (?)
            (?*)
-           ((?and (?or push pushnew) (? fn))
+           ((?and (?or push pushnew) (? fn)) 
             (?)
             (?and (?is symbolp) (? var)))
            (?*))
          (let (?)
            (?*)
-           (?or ((?and (?or push pushnew) (? fn))
+           (?or ((?and (?or push pushnew) (? fn)) 
                  (?)
                  (?and (?is symbolp) (? var)))
                 (cond (?*)
-                      ((?*) ((?and (?or push pushnew) (? fn))
+                      ((?*) ((?and (?or push pushnew) (? fn)) 
                              (?)
                              (?and (?is symbolp) (? var))))
                       (?*))
                 (if (?)
                   (?*)
-                  ((?and (?or push pushnew) (? fn))
+                  ((?and (?or push pushnew) (? fn)) 
                    (?)
                    (?and (?is symbolp) (? var)))
                   (?*))))
@@ -715,7 +765,7 @@ you should just use the pathname passed in."
      (- (? var) (? val)))
   "DECF would be simpler to subtract ~S from ~S than ~S" (? val) (? var) (? FN))
 
-
+    
 
 ;;; Name related critiques
 
