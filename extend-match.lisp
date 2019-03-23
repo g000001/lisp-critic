@@ -2,6 +2,7 @@
 
 ;;; Updates:
 ;;;
+;;; 10/11/2011 Added a warning about ?name as a pattern [CKR]
 ;;; 1/24/2006 Changed EQL to EQUAL in PAT-MATCH to handle strings [CKR]
 ;;; 1/21/2005 Changed to store extensions by name string, not symbols [CKR]
 ;;; 1/21/2005 Changed package to be Franz "modern" compatible [CKR]
@@ -146,6 +147,8 @@
   (cond ((null blists) nil)
         ((pat-extension-p pat)
          (match-extension pat form blists))
+        ((var-type-name-p pat)
+         (warn "Undefined pattern form ~S" pat))
         ((equal pat form) blists)
         ((atom pat) nil)
         ((segment-pat-extension-p (first pat))
@@ -157,7 +160,7 @@
 (defun match-extension (pat form blists)
   (let ((fn (pat-function (first pat))))
       (when (null fn)
-        (error "Undefined pattern extension ~S" pat))
+        (warn "Undefined pattern extension ~S" pat))
       (case (pat-type (first pat))
         (:single (funcall fn (rest pat) form blists))
         (:none (funcall fn (rest pat) blists)))))
@@ -168,7 +171,7 @@
              (rest-pats (rest pats)))
          (let ((fn (pat-function (first pat))))
            (when (null fn)
-             (error "Undefined pattern extension ~S" pat))
+             (warn "Undefined pattern extension ~S" pat))
            (funcall fn (rest pat) rest-pats form blists)))))
 
 
