@@ -14,7 +14,7 @@
 
 ;;; See
 ;;;
-;;; http://www.cs.nwu.edu/academics/courses/c25/readings/extend-pat.html
+;;; https://courses.cs.northwestern.edu/325/readings/extend-pat.php
 ;;;
 ;;; for information.
 

@@ -1,6 +1,6 @@
 * LISP-CRITIC - A Lisp code critiquing package.
 
-see http://cs.northwestern.edu/academics/courses/325/exercises/critic.php#critic
+see https://courses.cs.northwestern.edu/325/exercises/critic.php#critic
 
 - Author: Chris Riesbeck
 - Licence: MIT Licence
