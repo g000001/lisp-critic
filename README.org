@@ -36,6 +36,7 @@ Example call:
           (setq n (+ n 1))))
       n))
 #+END_SRC
+
 Example output:
 #+BEGIN_EXAMPLE
 ----------------------------------------------------------------------
@@ -55,3 +56,15 @@ change N, whichever is appropriate here.
 ----------------------------------------------------------------------
 #+END_EXAMPLE
 
+See the lisp-critic.lisp file for more information.
+To load LISP-CRITIC to the REPL, Type (USE-PACKAGE :LISP-CRITIC).
+
+To run the Lisp Critic on an entire file of code:
+#+BEGIN_SRC lisp
+(critique-file pathname)
+#+END_SRC lisp
+
+For example,
+#+BEGIN_SRC lisp
+(critique-file "~/riesbeck/cs325/chap9-exs.lisp")
+#+END_SRC lisp
