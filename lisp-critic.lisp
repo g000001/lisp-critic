@@ -240,7 +240,8 @@ forgot the USE-PACKAGE. Do this to fix things:
 (defun print-critique-responses (critiques
                                  &optional (stream *standard-output*))
   (let ((*print-pretty* nil))
-    (print-separator stream)
+    (when critiques
+      (print-separator stream))
     (dolist (critique critiques)
       (print-critique-response critique stream))))
 
