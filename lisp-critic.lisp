@@ -235,7 +235,7 @@ forgot the USE-PACKAGE. Do this to fix things:
         append (apply-critique-rule name code)))
 
 (defun apply-critique-rule (name code)
-  (find-critiques name (get-pattern name) code :blists '(nil) :*top-level* t))
+  (find-critiques name (get-pattern name) code :blists '(nil) :top-level t))
 
 (defun print-critique-responses (critiques
                                  &optional (stream *standard-output*))
@@ -250,7 +250,7 @@ forgot the USE-PACKAGE. Do this to fix things:
 ;;; FIND-CRITIQUES
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun find-critiques (name pat code &key (blists '(nil)) *top-level*)
+(defun find-critiques (name pat code &key (blists '(nil)) ((:top-level *top-level*) *top-level*))
   (let ((new-blists (critique-match pat code blists)))
     (cond ((not (null new-blists))
            (make-critiques name new-blists code))
