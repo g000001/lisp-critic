@@ -227,7 +227,7 @@
   (assoc name bindings))
 
 (defun add-binding (name input blists)
-  (list (cons (cons name input) (first blists))))
+  (list (acons name input (first blists))))
 
 (defun binding-variable (binding) (first binding))
 
