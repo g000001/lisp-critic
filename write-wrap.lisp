@@ -50,7 +50,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 ;;; in 6.0!
 
 (defun write-wrap (stream strng width
-                          &optional indent (first-indent indent))
+                          &key indent (first-indent indent))
   (let ((*print-pretty* nil))
     (do* ((end (length strng))
           (indent-string (when (and indent (> indent 0))
