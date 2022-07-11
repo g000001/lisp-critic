@@ -50,15 +50,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 ;;; in 6.0!
 
 (defun write-wrap (stream strng width
-                          &key indent (first-indent indent))
+                   &key indent (first-indent indent))
   (let ((*print-pretty* nil))
     (do* ((end (length strng))
-          (indent-string (when (and indent (> indent 0))
-                           (make-string indent
-                                        :initial-element #\space)))
-          (first-indent-string (when (and first-indent (> first-indent 0))
-                                 (make-string first-indent
-                                              :initial-element #\space)))
+          (indent-string (indent-string indent))
+          (first-indent-string (indent-string first-indent))
           (start 0 (1+ next))
           (next (break-pos strng start end width)
                 (break-pos strng start end width))
@@ -68,6 +64,11 @@ OTHER DEALINGS IN THE SOFTWARE.
       (write-string strng stream :start start :end next)
       (terpri stream))))
 
+(defun indent-string (indent)
+  "When indent is a positive fixnum, indent-string returns a simple
+   string of length indent whose elements have been initialized to space."
+  (when (and indent (> indent 0))
+    (make-string indent :initial-element #\space)))
 
 ;;; (whitespace-p char) is true if ch is whitespace.
 
