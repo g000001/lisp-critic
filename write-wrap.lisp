@@ -64,11 +64,11 @@ OTHER DEALINGS IN THE SOFTWARE.
       (write-string strng stream :start start :end next)
       (terpri stream))))
 
-(defun indent-string (indent)
-  "When indent is a positive fixnum, indent-string returns a simple
-   string of length indent whose elements have been initialized to space."
-  (when (and indent (> indent 0))
-    (make-string indent :initial-element #\space)))
+(defun indent-string (size)
+  "When size is a positive fixnum, indent-string returns a simple
+   string of length size whose elements have been initialized to space."
+  (when (and size (> size 0))
+    (make-string size :initial-element #\space)))
 
 ;;; (whitespace-p char) is true if ch is whitespace.
 
