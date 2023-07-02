@@ -27,6 +27,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 ;;; 
 ;;; Update history:
 ;;;
+;;; 12/1/2020 added NEEDLESS-WHEN [CKR]
+;;; 12/2/2019 added CHECK-PREFIX and HELPER-SUFFIX [CKR]
+;;; 3/23/2019 changed LENGTH=NUM [defaultxr]
 ;;; 10/13/2017 generalized SETF-PUSH to include SETQ [CKR]
 ;;; 12/07/2015 added DO* to SETF-IN-DO, expanded text of COND-WITHOUT-DEFAULT [CKR]
 ;;; 09/28/2015 added PROGN-IN-DO-BODY and PROGN-IN-DO-EXIT [CKR]
@@ -268,9 +271,13 @@ If the return value doesn't matter, use WHEN or UNLESS.")
   "There's a COND here that can be replaced with something simpler (not IF).")
 
 (define-lisp-pattern needless-if
- (?and (?or (if (?) t nil) (if (?) t)) (? form))
-  "~S is silly. Use either just the test, or (NOT (NULL ...)) if you want T instead of not NIL."
-  (? form))
+ (?or (if (?) t nil) (if (?) t))
+  "No IF is needed here.")
+
+(define-lisp-pattern needless-when
+ ((?and (?or when unless) (? x)) (?) (?or t nil))
+ "No ~S is needed here."
+ (? x))
 
 (define-lisp-pattern if->or
  (if (?) t (?not nil))
@@ -792,6 +799,16 @@ you should just use the pathname passed in."
 (define-lisp-pattern ?-for-predicate
   (?name-ends-with "?")
   "In Common Lisp, use -p to end predicate names, not ? as in Scheme.'")
+
+(define-lisp-pattern check-prefix
+  (?name-starts-with "check")
+  "check is not a helpful prefix. It doesn't say what happens after checking. ~
+   If this is a predicate, use a property-p name to say what it tests for.") 
+
+(define-lisp-pattern helper-suffix
+  (?name-ends-with "helper")
+  "Helper is not helpful name. A function name should primarily describe ~
+   what is returned, and maybe with what input.") 
 
 (define-lisp-pattern unused-mapcar-value
   (let (?*) (mapcar (?*)) (?) (?*))
