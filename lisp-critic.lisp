@@ -27,6 +27,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 ;;;
 ;;; Update history:
 ;;;
+;;; 12/2/19 added NAME-STARTS-WITH [CKR]
 ;;; 09/18/05 replaced Academic Free License with MIT Licence [CKR]
 ;;; 08/30/05 added license notice [CKR]
 ;;; 3/10/05 fixed REMOVE-LISP-PATTERN to remove responses [CKR]
@@ -398,7 +399,24 @@ forgot the USE-PACKAGE. Do this to fix things:
   (let ((strlen (length str))
         (substrlen (length substr)))
     (and (> strlen substrlen)
-         (string= str substr :start1 (- strlen substrlen)))))
+         (string-equal str substr :start1 (- strlen substrlen)))))
+
+;;; (?NAME-STARTS-WITH string) -- matches a symbol starting with
+;;; the given string (case is ignored)
+
+(add-extension '?name-starts-with :single 'match-name-starts-with)
+
+(defun match-name-starts-with (args input blists)
+  (destructuring-bind (substring) args
+    (and (symbolp input)
+         (string-starts-with-p (symbol-name input) substring)
+         blists)))
+
+(defun string-starts-with-p (str substr)
+  (let ((strlen (length str))
+        (substrlen (length substr)))
+    (and (>= strlen substrlen)
+         (string-equal str substr :end1 substrlen))))
 
 ;;; (?EQL-PRED [name]) -- matches a Lisp equality predicate
 ;;;   (except =) and binds name to it, if given
