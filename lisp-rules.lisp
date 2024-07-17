@@ -801,7 +801,7 @@ you should just use the pathname passed in."
   "In Common Lisp, use -p to end predicate names, not ? as in Scheme.'")
 
 (define-lisp-pattern check-prefix
-  (?name-starts-with "check")
+  (?user-defined-name-starts-with "check")
   "check is not a helpful prefix. It doesn't say what happens after checking. ~
    If this is a predicate, use a property-p name to say what it tests for.") 
 

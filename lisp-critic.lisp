@@ -418,6 +418,20 @@ forgot the USE-PACKAGE. Do this to fix things:
     (and (>= strlen substrlen)
          (string-equal str substr :end1 substrlen))))
 
+(add-extension '?user-defined-name-starts-with :single 'match-user-defined-name-starts-with)
+
+(defun standard-symbolp (sym)
+  (and (symbolp sym)
+       (eql (load-time-value (find-package "CL"))
+            (symbol-package sym))))
+
+(defun match-user-defined-name-starts-with (args input blists)
+  (destructuring-bind (substring) args
+    (and (symbolp input)
+         (not (standard-symbolp input))
+         (string-starts-with-p (symbol-name input) substring)
+         blists)))
+
 ;;; (?EQL-PRED [name]) -- matches a Lisp equality predicate
 ;;;   (except =) and binds name to it, if given
 
